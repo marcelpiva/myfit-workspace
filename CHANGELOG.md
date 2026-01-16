@@ -7,8 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### Added
-- Initial project setup
+### Changed
+- Reorganized repository structure to use Git submodules
+- myfit-app, myfit-api, myfit-web are now separate repositories
 
 ## [0.1.0] - 2026-01-16
 

@@ -18,14 +18,24 @@ Users can have multiple roles (student, trainer, coach, gym owner) and belong to
 
 ## Repository Structure
 
+This is a monorepo using Git submodules:
+
 ```
-my-fit-workspace/
-├── my-fit-app/   # Flutter mobile app
-├── my-fit-web/   # Landing page - Next.js
-├── my-fit-api/   # FastAPI backend
+myfit-workspace/
+├── myfit-app/    # Flutter mobile app (submodule)
+├── myfit-api/    # FastAPI backend (submodule)
+├── myfit-web/    # Next.js landing page (submodule)
 ├── docs/         # Documentation
 └── assets/       # Shared brand assets
 ```
+
+### Submodules
+
+| Repository | Description |
+|------------|-------------|
+| [myfit-app](https://github.com/marcelpiva/myfit-app) | Flutter mobile application |
+| [myfit-api](https://github.com/marcelpiva/myfit-api) | FastAPI backend |
+| [myfit-web](https://github.com/marcelpiva/myfit-web) | Next.js landing page |
 
 ## Technology Stack
 
@@ -33,7 +43,7 @@ my-fit-workspace/
 |-----------|------------|
 | Mobile App | Flutter 3.x, Riverpod, go_router |
 | Backend | FastAPI, PostgreSQL, Redis, Celery |
-| Landing Page | Next.js 14, Tailwind CSS, shadcn/ui |
+| Landing Page | Next.js 16, Tailwind CSS 4 |
 | AI | OpenAI/Claude API |
 | Payments | Stripe, PagSeguro, Asaas |
 
@@ -46,26 +56,34 @@ my-fit-workspace/
 - Node.js 20+
 - PostgreSQL 16
 - Redis 7
+- Docker (optional)
+
+### Clone with Submodules
+
+```bash
+# Clone with all submodules
+git clone --recurse-submodules https://github.com/marcelpiva/my-fit-workspace.git
+cd my-fit-workspace
+
+# Or if already cloned, init submodules
+git submodule update --init --recursive
+```
 
 ### Setup
 
 ```bash
-# Clone the workspace
-git clone https://github.com/marcelpiva/my-fit-workspace.git
-cd my-fit-workspace
-
 # Setup Flutter app
-cd my-fit-app
+cd myfit-app
 flutter pub get
 
 # Setup API
-cd ../my-fit-api
+cd ../myfit-api
 python -m venv .venv
 source .venv/bin/activate  # or `.venv\Scripts\activate` on Windows
 pip install -e ".[dev]"
 
 # Setup Web
-cd ../my-fit-web
+cd ../myfit-web
 npm install
 ```
 
@@ -73,13 +91,25 @@ npm install
 
 ```bash
 # Run Flutter app
-cd my-fit-app && flutter run
+cd myfit-app && flutter run
 
-# Run API
-cd my-fit-api && uvicorn src.main:app --reload
+# Run API (with Docker)
+cd myfit-api
+docker-compose up -d
+uvicorn src.main:app --reload
 
 # Run Web
-cd my-fit-web && npm run dev
+cd myfit-web && npm run dev
+```
+
+### Updating Submodules
+
+```bash
+# Update all submodules to latest
+git submodule update --remote --merge
+
+# Update specific submodule
+git submodule update --remote myfit-app
 ```
 
 ## Design System

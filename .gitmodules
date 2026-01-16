@@ -1,0 +1,9 @@
+[submodule "myfit-app"]
+	path = myfit-app
+	url = https://github.com/marcelpiva/myfit-app.git
+[submodule "myfit-api"]
+	path = myfit-api
+	url = https://github.com/marcelpiva/myfit-api.git
+[submodule "myfit-web"]
+	path = myfit-web
+	url = https://github.com/marcelpiva/myfit-web.git
