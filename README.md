@@ -22,7 +22,7 @@ Users can have multiple roles (student, trainer, coach, gym owner) and belong to
 my-fit-workspace/
 ├── my-fit-app/   # Flutter mobile app
 ├── my-fit-web/   # Landing page - Next.js
-├── api/          # FastAPI backend
+├── my-fit-api/   # FastAPI backend
 ├── docs/         # Documentation
 └── assets/       # Shared brand assets
 ```
@@ -59,7 +59,7 @@ cd my-fit-app
 flutter pub get
 
 # Setup API
-cd ../api
+cd ../my-fit-api
 python -m venv .venv
 source .venv/bin/activate  # or `.venv\Scripts\activate` on Windows
 pip install -e ".[dev]"
@@ -76,7 +76,7 @@ npm install
 cd my-fit-app && flutter run
 
 # Run API
-cd api && uvicorn src.main:app --reload
+cd my-fit-api && uvicorn src.main:app --reload
 
 # Run Web
 cd my-fit-web && npm run dev

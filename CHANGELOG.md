@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0] - 2026-01-16
 
 ### Added
-- **Workspace**: Initial monorepo structure with my-fit-app, my-fit-web, and api
+- **Workspace**: Initial monorepo structure with my-fit-app, my-fit-web, and my-fit-api
 - **my-fit-app** (v1.0.0):
   - Flutter mobile application base structure
   - Authentication with biometrics support
@@ -26,7 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Tailwind CSS 4 styling
   - Framer Motion animations
   - Responsive design
-- **api**:
+- **my-fit-api**:
   - FastAPI backend structure
   - Domain-driven design architecture
   - Authentication module (JWT)
