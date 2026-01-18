@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **myfit-api**: Exercise groups (Bi-Set, Tri-Set, etc.) now save correctly to database
+  - `add_exercise_to_workout()` now accepts technique fields (execution_instructions, isometric_seconds, technique_type, exercise_group_id, exercise_group_order)
+  - Updated all router calls to pass technique fields through
+  - `duplicate_workout()` now copies technique fields
+
+- **myfit-app**: Improved exercise group display and reorder behavior
+  - New `_ExerciseGroupCard` widget displays grouped exercises in a bordered card
+  - Group header shows technique type, exercise count, instructions button, and disband button
+  - Exercises within groups are now aligned (no indent hierarchy)
+  - Reorder now moves entire groups together
+  - Compact isometric display (icon + seconds instead of "Hold Xs")
+  - Removed redundant technique chips from grouped exercises
+
 ### Changed
 - Reorganized repository structure to use Git submodules
 - myfit-app, myfit-api, myfit-web are now separate repositories
