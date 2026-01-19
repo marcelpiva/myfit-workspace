@@ -26,12 +26,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Updated all router calls to pass technique fields through
   - `duplicate_workout()` now copies technique fields
 
-- **myfit-app**: Fixed biset/superset detection bug
-  - Creating a 2-exercise group now preserves user's technique selection
-  - Bi-Set stays as Bi-Set, Super-Set stays as Super-Set
-  - Technique selection modal now shows Bi-Set and Super-Set as separate options
-  - Bi-Set: "2 exercicios da mesma area" (same muscle area)
-  - Super-Set: "2 exercicios de grupos opostos" (opposite muscle groups)
+- **myfit-app**: Fixed biset/superset detection and filtering
+  - Auto-detects Bi-Set vs Super-Set based on muscle groups (antagonists = Super-Set)
+  - Super-Set option hidden when workout has no antagonist muscle pairs
+  - Bi-Set: Peito/Ombros, Costas/Biceps (same area muscles)
+  - Super-Set: Peito/Costas, Biceps/Triceps (antagonist muscles)
+  - Exercise picker filtered to only show exercises from workout's muscle groups
 
 - **myfit-app**: Improved exercise group display and reorder behavior
   - New `_ExerciseGroupCard` widget displays grouped exercises in a bordered card
