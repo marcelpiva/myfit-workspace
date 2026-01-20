@@ -8,6 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **myfit-api v0.4.0**: Major security and feature update
+  - Chat domain with conversations and messages
+  - Notifications domain with 25+ notification types
+  - Billing domain for trainer payment management
+  - Email service with Resend integration
+  - Rate limiting for assignments (50 workouts/hr, 20 plans/hr)
+  - 6 security vulnerabilities fixed (VULN-1 to VULN-6)
+  - Monthly revenue endpoints for trainer dashboard
+  - Removed 809 lines of debug/migration code
+
+- **myfit-app**: User profile fields synced with API
+  - `birthDate`, `gender`, `heightCm`, `bio` fields in UserResponse
+  - Edit profile page now uses synced fields
+
 - **myfit-web**: Mobile-responsive navigation with hamburger menu
   - Desktop navigation hidden on mobile, replaced with hamburger menu
   - Mobile menu with full navigation links and action buttons
