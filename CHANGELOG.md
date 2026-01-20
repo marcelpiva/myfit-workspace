@@ -20,8 +20,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Exercises are kept (not deleted) - informational notice only
 
 - **myfit-app**: Auto-switch to "Personalizado" split type when modifying workouts
+  - Triggered only by: adding/removing workouts, changing workout name/label
+
+- **myfit-app**: Lock split type selection when editing existing plans
+  - Disabled with info banner, selected option shown first
 
 ### Fixed
+- **myfit-app**: ABC split default workouts now generate automatically on wizard load
+
 - **myfit-app**: White text/icons on selected chips in light mode
   - SegmentedButton, ChoiceChips, ExecutionMode toggle, ExerciseMode toggle
 
