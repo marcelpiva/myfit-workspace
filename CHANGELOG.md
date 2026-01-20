@@ -24,6 +24,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added `whitespace-nowrap` to prevent text wrapping
   - Adjusted button padding for better mobile fit
 
+- **myfit-web**: Language switcher now works on touch devices (iPhone/iPad)
+  - Changed from hover-based to click-based dropdown on mobile
+  - Added click outside detection to close menu
+  - Supports both mouse and touch events
+
 ### Added
 - **myfit-app**: ExecutionMode toggle for exercise configuration
   - Three modes: Repetições (Reps), Isometria (Isometric), Combinado (Combined)
