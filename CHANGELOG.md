@@ -8,6 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **myfit-api v0.4.1**: Plan management improvements
+  - `clear_duration_weeks` parameter for continuous plans
+  - Duplicate plan validation (409 Conflict response)
+  - Route ordering fix for /plans/assignments endpoint
+  - Student status management and assignment acceptance workflow
+
+- **myfit-app v1.5.2**: Multi-plan support and UI fixes
+  - Plan conflict dialog (Replace/Complementary/Schedule options)
+  - Multi-plan support (active, scheduled, history sections)
+  - Duplicate plan prevention with error dialog
+  - Fixed navigation routes for Ver/Editar buttons
+  - Fixed Descartar button text color
+  - Fixed _StatCard overflow for Personalizado
+  - Fixed continuous plan duration saving
+  - Added translateMuscleGroup to centralized translations
+
 - **myfit-api v0.4.0**: Major security and feature update
   - Chat domain with conversations and messages
   - Notifications domain with 25+ notification types

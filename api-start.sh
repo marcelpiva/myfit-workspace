@@ -32,7 +32,7 @@ sleep 1
 echo -e "${GREEN}Iniciando API...${NC}"
 cd "$API_DIR"
 source .venv/bin/activate
-nohup python -m uvicorn src.main:app --host 0.0.0.0 --port 3000 --reload >> "$LOG_FILE" 2>&1 &
+nohup python -m uvicorn src.main:app --host 0.0.0.0 --port 8000 --reload >> "$LOG_FILE" 2>&1 &
 
 echo -e "${GREEN}API iniciada! PID: $!${NC}"
 echo -e "${CYAN}Log: $LOG_FILE${NC}"
@@ -43,7 +43,7 @@ echo -e "${YELLOW}Aguardando startup...${NC}"
 sleep 3
 
 # Verificar se está rodando
-if curl -s http://localhost:3000/docs > /dev/null 2>&1; then
+if curl -s http://localhost:8000/docs > /dev/null 2>&1; then
     echo -e "${GREEN}${BOLD}✓ API Online!${NC}"
 else
     echo -e "${RED}${BOLD}✗ API pode ter falhado ao iniciar${NC}"
