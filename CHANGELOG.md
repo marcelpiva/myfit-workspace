@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **myfit-api v0.4.4**: Co-training session start fix
+  - Fixed AttributeError: OrganizationMembership has no trainer_id
+  - Changed to use `invited_by_id` for trainer identification
+
+- **myfit-app v1.7.1**: Exercise grouping and trainer UI fixes
+  - Fixed exercise technique visualization (bi-set, tri-set, etc.)
+  - Fixed trainer plans tab showing incorrect accept buttons
+  - Added dev screen labels for debugging
+  - Added cancel option for pending prescriptions
+
 ### Added
 - **myfit-api v0.4.2**: Student invite system
   - `POST /trainers/students/register` now creates OrganizationInvite instead of direct membership
