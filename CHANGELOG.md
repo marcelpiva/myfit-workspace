@@ -8,6 +8,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Fixed
+- **myfit-app v1.9.2**: Push notifications complete overhaul
+  - Fixed FCM token registration endpoint
+  - Added iOS foreground notification presentation
+  - Fixed in-app notifications screen parsing
+
+- **myfit-api v0.5.2**: APNs payload and test notifications
+  - Fixed iOS push notifications with explicit ApsAlert
+  - Test push now creates in-app notification
+
 - **myfit-api v0.4.4**: Co-training session start fix
   - Fixed AttributeError: OrganizationMembership has no trainer_id
   - Changed to use `invited_by_id` for trainer identification
