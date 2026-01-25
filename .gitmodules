@@ -7,3 +7,6 @@
 [submodule "myfit-web"]
 	path = myfit-web
 	url = https://github.com/marcelpiva/myfit-web.git
+[submodule "myfit-worker"]
+	path = myfit-worker
+	url = git@github.com:marcelpiva/myfit-worker.git
