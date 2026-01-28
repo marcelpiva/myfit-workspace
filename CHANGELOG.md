@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- **myfit-api v0.6.7**: Critical authentication and routing fixes
+  - Added `redirect_slashes=False` to prevent 307 redirects losing Authorization header
+  - Fixed root endpoints in checkin, workouts, and organizations routers (changed `"/"` to `""`)
+  - Autonomous student "Meus Treinos" screen now works correctly
+
+- **myfit-app v1.0.0**: Critical authentication fix
+  - AuthInterceptor now correctly attempts token refresh for `/auth/me` endpoint
+  - Removed duplicate token clearing in `getCurrentUser()` that caused auth state corruption
+  - Users no longer get logged out when switching between profiles
+
 ### Added
 - **myfit-app v1.11.1**: TestFlight build 202601261235
   - Social login routes new users to onboarding with pre-selected user type
