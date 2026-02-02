@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0+21] - 2026-02-02
+
+### Added
+- **Chat UI/UX Overhaul (App)** - Complete redesign of chat for Personal vs Student interaction
+  - Refactored monolithic chat into 10 specialized files
+  - Role badges, date separators, quick reply chips, expandable input
+  - Image/system message rendering, last seen status, swipe-to-action
+  - Functional archive, mute, block with Firestore persistence
+  - Fixed: new conversation modal, unread counts, student detail chat navigation
+
 ## [1.0.0+20] - 2026-02-02
 
 ### Added
