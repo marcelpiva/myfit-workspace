@@ -44,8 +44,10 @@ htmlcov/
 # Secrets
 *.pem
 *.key
+*.p8
 credentials.json
 firebase-credentials.json
+assets/appledeveloper/
 
 # OS
 Thumbs.db
