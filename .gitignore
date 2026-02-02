@@ -36,6 +36,7 @@ coverage/
 .coverage
 htmlcov/
 .pytest_cache/
+test-results/
 
 # Database
 *.db
