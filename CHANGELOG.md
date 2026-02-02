@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0+20] - 2026-02-02
+
+### Added
+- **Real-time Chat with Firebase Firestore (App)** - Replaced REST chat with Firestore real-time streams
+  - Instant message delivery, typing indicators, online status, read receipts
+  - Message rate limiting (20 msgs/min per user)
+  - Lazy conversation creation, offline support, org-isolated conversations
+  - Firestore security rules and composite indexes deployed
+
 ## [1.0.0+19] - 2026-02-02
 
 ### Fixed
