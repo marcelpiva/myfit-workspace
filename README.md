@@ -1,6 +1,6 @@
 # MyFit Workspace
 
-[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.0.0+18-blue.svg)](CHANGELOG.md)
 
 Complete fitness platform for personal trainers, coaches, gyms, and fitness professionals.
 
@@ -133,6 +133,89 @@ git submodule update --remote myfit-app
 - **Production**: https://myfitplatform.com
 - **API**: https://api.myfitplatform.com
 - **App**: https://app.myfitplatform.com
+
+## Development
+
+### Running API with Docker
+
+```bash
+cd myfit-iac/docker
+docker compose up -d
+```
+
+This starts PostgreSQL, Redis, API, Celery worker and beat.
+
+### Testing on Physical Device (iPhone/Android)
+
+The app uses different API URLs based on environment:
+
+| Environment | API URL |
+|-------------|---------|
+| Development | `http://192.168.0.102:8000/api/v1` |
+| Staging | `https://api.myfitplatform.com/api/v1` |
+| Production | `https://api.myfitplatform.com/api/v1` |
+
+#### Building for Local Testing (Device → Docker)
+
+```bash
+# Build with development environment (points to local Docker)
+flutter build ipa --release --dart-define=ENV=dev
+
+# Or for Android
+flutter build apk --release --dart-define=ENV=dev
+```
+
+#### Building for Production/TestFlight
+
+```bash
+# Using Fastlane (recommended)
+cd myfit-app/ios && fastlane beta
+
+# Or manually with production environment
+flutter build ipa --release --dart-define=ENV=prod
+```
+
+### Troubleshooting
+
+#### "Internal Server Error" on Authentication
+
+**Symptom**: App returns 500 error when trying to login/register, but `/health` works.
+
+**Cause**: A local uvicorn process may be running outside Docker on the same port (8000).
+
+**Solution**:
+
+```bash
+# Check what's using port 8000
+lsof -i :8000
+
+# If you see a local Python/uvicorn process (not com.docker), kill it
+kill <PID>
+
+# Verify Docker is now handling requests
+curl http://192.168.0.102:8000/api/v1/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@test.com","password":"test"}'
+# Should return 401 (invalid credentials), not 500
+```
+
+#### Device Can't Connect to Docker API
+
+**Checklist**:
+
+1. Device and Mac must be on the same Wi-Fi network
+2. Check Mac's current IP: `ifconfig | grep "inet " | grep -v 127.0.0.1`
+3. Update the IP in `myfit-app/lib/core/config/environment.dart` if it changed
+4. Ensure Docker containers are running: `docker ps`
+5. Test from Mac: `curl http://<YOUR_IP>:8000/health`
+
+#### App Points to Wrong Environment
+
+If the app is pointing to the wrong API:
+
+1. Check how it was built (with or without `--dart-define=ENV=...`)
+2. Default is `development` if not specified
+3. Rebuild with correct environment flag
 
 ## License
 

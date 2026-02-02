@@ -2,228 +2,47 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-
-### Fixed
-- **myfit-api v0.6.8**: Critical workout isolation security fixes
-  - `create_workout` now uses `X-Organization-ID` header as fallback for organization context
-  - `get_workout` and `get_workout_exercises` now verify organization membership (was allowing unauthorized access)
-  - Added 13 integration tests for workout isolation by organization
-
-- **myfit-api v0.6.7**: Critical authentication and routing fixes
-  - Added `redirect_slashes=False` to prevent 307 redirects losing Authorization header
-  - Fixed root endpoints in checkin, workouts, and organizations routers (changed `"/"` to `""`)
-  - Autonomous student "Meus Treinos" screen now works correctly
-
-- **myfit-app v1.0.0**: Critical authentication fix
-  - AuthInterceptor now correctly attempts token refresh for `/auth/me` endpoint
-  - Removed duplicate token clearing in `getCurrentUser()` that caused auth state corruption
-  - Users no longer get logged out when switching between profiles
+## [1.0.0+18] - 2026-02-02
 
 ### Added
-- **myfit-app v1.11.1**: TestFlight build 202601261235
-  - Social login routes new users to onboarding with pre-selected user type
-  - Improved error handling for network errors
-  - Disabled GlitchTip in development mode
-  - Debug logging for student onboarding data persistence
-
-- **myfit-api v0.6.2**: Production database migration
-  - Applied onboarding fields migration to production
-  - Added 11 columns to users table: specialties, years_of_experience, fitness_goal, fitness_goal_other, experience_level, weight_kg, age, weekly_frequency, injuries, injuries_other, onboarding_completed
-  - Production database now 100% synced with models (59 tables)
-
-- **myfit-app v1.11.0**: Complete user journey implementation
-  - Onboarding wizard for trainers and students post-registration
-  - Plan version history UI with diff comparison
-  - Do Not Disturb (DND) settings with time pickers
-  - Batch prescription for multiple students
-  - Plan draft system with auto-save
-  - QR Code for student invites
-  - WhatsApp sharing for invites
-  - Social login (Google/Apple)
-  - Email verification with OTP
-  - User type selection (Personal/Student)
-
-- **myfit-api v0.6.1**: Smart notifications and reminders
-  - Intelligent workout reminders with varied messages
-  - Personalized timing based on user preferences
-  - Streak protection messages in evening
-  - Fixed invite reminders with email support
-  - Expiration notifications for trainers
+- **4-Section Student Onboarding (App)** - Restructured onboarding inspired by Trainiac/Wellhub
+  - Section 1: Personal Info (gender, birthdate, height, weight)
+  - Section 2: Goals & Routine (goal, experience, frequency, preferred duration)
+  - Section 3: Preferences (training location, preferred activities)
+  - Section 4: Health (impact exercise, injuries)
+  - New reusable widgets: SectionIntroCard, OnboardingProgressBar, VisualGridSelector
+- **New User Profile Fields (API)** - preferred_duration, training_location, preferred_activities, can_do_impact
 
 ### Fixed
-- **myfit-app v1.9.2**: Push notifications complete overhaul
-  - Fixed FCM token registration endpoint
-  - Added iOS foreground notification presentation
-  - Fixed in-app notifications screen parsing
+- **Workout/Plan Org Isolation (API)** - Templates no longer leak between organizations
+  - `list_plans()` was using OR instead of AND for org filtering
+  - `list_plans()` endpoint now reads X-Organization-ID header (was only accepting query param)
+  - `get_plan()` no longer grants access to any plan with an organization_id
+- **Dev API IP** - Updated to 192.168.0.102
 
-- **myfit-api v0.5.2**: APNs payload and test notifications
-  - Fixed iOS push notifications with explicit ApsAlert
-  - Test push now creates in-app notification
-
-- **myfit-api v0.4.4**: Co-training session start fix
-  - Fixed AttributeError: OrganizationMembership has no trainer_id
-  - Changed to use `invited_by_id` for trainer identification
-
-- **myfit-app v1.7.1**: Exercise grouping and trainer UI fixes
-  - Fixed exercise technique visualization (bi-set, tri-set, etc.)
-  - Fixed trainer plans tab showing incorrect accept buttons
-  - Added dev screen labels for debugging
-  - Added cancel option for pending prescriptions
-
-### Added
-- **myfit-api v0.4.2**: Student invite system
-  - `POST /trainers/students/register` now creates OrganizationInvite instead of direct membership
-  - `GET /trainers/students/pending-invites` - List pending student invites
-  - Students must accept invite to join trainer's organization
-  - Prevents duplicate user creation when student registers separately
-
-- **myfit-app v1.5.3**: Pending invites support
-  - Students can see and accept organization invites in profile selector
-  - `getMyPendingInvites()` method in OrganizationService
-  - Fixed pending invites not showing after login (provider invalidation)
-  - Updated success message to "Convite enviado com sucesso!"
-
-- **myfit-api v0.4.1**: Plan management improvements
-  - `clear_duration_weeks` parameter for continuous plans
-  - Duplicate plan validation (409 Conflict response)
-  - Route ordering fix for /plans/assignments endpoint
-  - Student status management and assignment acceptance workflow
-
-- **myfit-app v1.5.2**: Multi-plan support and UI fixes
-  - Plan conflict dialog (Replace/Complementary/Schedule options)
-  - Multi-plan support (active, scheduled, history sections)
-  - Duplicate plan prevention with error dialog
-  - Fixed navigation routes for Ver/Editar buttons
-  - Fixed Descartar button text color
-  - Fixed _StatCard overflow for Personalizado
-  - Fixed continuous plan duration saving
-  - Added translateMuscleGroup to centralized translations
-
-- **myfit-api v0.4.0**: Major security and feature update
-  - Chat domain with conversations and messages
-  - Notifications domain with 25+ notification types
-  - Billing domain for trainer payment management
-  - Email service with Resend integration
-  - Rate limiting for assignments (50 workouts/hr, 20 plans/hr)
-  - 6 security vulnerabilities fixed (VULN-1 to VULN-6)
-  - Monthly revenue endpoints for trainer dashboard
-  - Removed 809 lines of debug/migration code
-
-- **myfit-app**: User profile fields synced with API
-  - `birthDate`, `gender`, `heightCm`, `bio` fields in UserResponse
-  - Edit profile page now uses synced fields
-
-- **myfit-web**: Mobile-responsive navigation with hamburger menu
-  - Desktop navigation hidden on mobile, replaced with hamburger menu
-  - Mobile menu with full navigation links and action buttons
-  - Language switcher simplified to flag-only on mobile
-  - Logo size reduced on small screens
-
-### Changed
-- **myfit-web**: Removed all "White-Label" references, replaced with "Completa/Complete"
-  - Updated page title, badges, and footer descriptions in all 3 languages (PT, EN, ES)
-  - Updated terms of service description
+## [1.0.0] - 2026-01-28
 
 ### Fixed
-- **myfit-web**: Header buttons "Get Started" and "Sign in" no longer break to multiple lines on mobile
-  - Added `whitespace-nowrap` to prevent text wrapping
-  - Adjusted button padding for better mobile fit
+- Authentication required on context switch - token refresh flow fix
+- Login redirect after login
+- Org creation 404 error
+- Student tab scrollable user type page
 
-- **myfit-web**: Language switcher now works on touch devices (iPhone/iPad)
-  - Changed from hover-based to click-based dropdown on mobile
-  - Added click outside detection to close menu
-  - Supports both mouse and touch events
-
-### Added
-- **myfit-app**: ExecutionMode toggle for exercise configuration
-  - Three modes: Repetições (Reps), Isometria (Isometric), Combinado (Combined)
-  - Automatic mode detection when editing existing exercises
-  - Mode-specific fields and time presets
-
-- **myfit-app**: Exercise group notification when changing workout muscle groups
-  - Shows informational alert when exercises don't match selected groups
-  - Exercises are kept (not deleted) - informational notice only
-
-- **myfit-app**: Auto-switch to "Personalizado" split type when modifying workouts
-  - Triggered only by: adding/removing workouts, changing workout name/label
-
-- **myfit-app**: Lock split type selection when editing existing plans
-  - Disabled with info banner, selected option shown first
-
-- **myfit-api**: Added `target_muscles` field to AIGeneratedWorkout schema
-  - AI-generated programs now include muscle groups for each workout
-
-- **myfit-app**: Added `TechniqueType.biset` support throughout codebase
-  - Bi-Set is now distinct from Super-Set (same area vs opposite groups)
-  - Added pink color, link icon, and description for Bi-Set
-  - Exercise grouping now correctly identifies Bi-Set vs Super-Set
+## [0.6.8] - 2026-01-27
 
 ### Fixed
-- **myfit-app**: ABC split default workouts now generate automatically on wizard load
+- Former student reinvite flow
+- Error interceptor user_id extraction
+- Settings page wrong options after social login
+- API error messages not displayed
 
-- **myfit-app**: White text/icons on selected chips in light mode
-  - SegmentedButton, ChoiceChips, ExecutionMode toggle, ExerciseMode toggle
+## [0.6.7] - 2026-01-26
 
-- **myfit-api**: Fixed AI suggestion 500 error
-  - Normalized technique types in AI service (isometric → normal, bi_set → biset)
-  - Standardized technique type enum values (biset, triset without underscore)
-
-- **myfit-api**: Exercise groups (Bi-Set, Tri-Set, etc.) now save correctly to database
-  - `add_exercise_to_workout()` now accepts technique fields
-  - Updated all router calls to pass technique fields through
-  - `duplicate_workout()` now copies technique fields
-
-- **myfit-app**: Fixed biset/superset detection and filtering
-  - Auto-detects Bi-Set vs Super-Set based on muscle groups
-  - Super-Set option hidden when workout has no antagonist muscle pairs
-  - Exercise picker filtered to only show exercises from workout's muscle groups
-
-- **myfit-app**: Improved exercise group display and reorder behavior
-  - New `_ExerciseGroupCard` widget displays grouped exercises in a bordered card
-  - Reorder now moves entire groups together
-  - Compact isometric display
-
-- **myfit-app**: Muscle group validation for exercise techniques
-  - Super-Set requires antagonist muscle groups
-  - Bi-Set/Tri-Set/Giant Set block antagonist muscles
-  - Visual indicators for blocked exercises
-
-### Changed
-- Reorganized repository structure to use Git submodules
-- myfit-app, myfit-api, myfit-web are now separate repositories
-
-## [0.1.0] - 2026-01-16
-
-### Added
-- **Workspace**: Initial monorepo structure with my-fit-app, my-fit-web, and my-fit-api
-- **my-fit-app** (v1.0.0):
-  - Flutter mobile application base structure
-  - Authentication with biometrics support
-  - Riverpod state management
-  - go_router navigation
-  - Core UI components and theme
-  - Localization setup (pt-BR, en)
-- **my-fit-web** (v0.1.0):
-  - Next.js 16 landing page
-  - Tailwind CSS 4 styling
-  - Framer Motion animations
-  - Responsive design
-- **my-fit-api**:
-  - FastAPI backend structure
-  - Domain-driven design architecture
-  - Authentication module (JWT)
-  - User, workout, nutrition, progress domains
-  - Check-in and gamification systems
-  - Marketplace module
-
-### Technical
-- Configured GitHub repository
-- Added project documentation
-- Set up development environment
-
-[Unreleased]: https://github.com/marcelpiva/my-fit-workspace/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/marcelpiva/my-fit-workspace/releases/tag/v0.1.0
+### Fixed
+- Onboarding edit mode starting at wrong step
+- Trainer onboarding edit mode flow
+- Keyboard not dismissing on workout complete screen
+- Bottom sheet content cut off
