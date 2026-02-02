@@ -1,0 +1,186 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  e2e-web:
+    name: E2E Web Tests (Playwright)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      # No external services needed - we use SQLite in-memory
+
+    defaults:
+      run:
+        working-directory: .
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      # ==================
+      # Backend Setup
+      # ==================
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cache Python dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('myfit-api/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install Python dependencies
+        working-directory: myfit-api
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Start E2E API Server
+        working-directory: myfit-api
+        run: |
+          # Start the E2E server in background
+          python -m tests.e2e.server &
+          echo $! > /tmp/api_server.pid
+
+          # Wait for server to be ready
+          echo "Waiting for API server to start..."
+          for i in {1..30}; do
+            if curl -s http://localhost:8001/test/health > /dev/null; then
+              echo "API server is ready!"
+              break
+            fi
+            echo "Attempt $i: Server not ready yet..."
+            sleep 1
+          done
+
+          # Verify server is running
+          curl -f http://localhost:8001/test/health || exit 1
+
+      # ==================
+      # Flutter Web Build
+      # ==================
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.24.0'
+          channel: 'stable'
+          cache: true
+
+      - name: Get Flutter dependencies
+        working-directory: myfit-app
+        run: flutter pub get
+
+      - name: Build Flutter Web
+        working-directory: myfit-app
+        run: |
+          flutter build web \
+            --dart-define=API_URL=http://localhost:8001 \
+            --dart-define=ENVIRONMENT=e2e
+
+      - name: Serve Flutter Web
+        working-directory: myfit-app
+        run: |
+          # Install serve globally
+          npm install -g serve
+
+          # Start serving in background
+          serve build/web -l 3000 &
+          echo $! > /tmp/web_server.pid
+
+          # Wait for server to be ready
+          echo "Waiting for web server to start..."
+          for i in {1..15}; do
+            if curl -s http://localhost:3000 > /dev/null; then
+              echo "Web server is ready!"
+              break
+            fi
+            echo "Attempt $i: Web server not ready yet..."
+            sleep 1
+          done
+
+      # ==================
+      # Playwright Tests
+      # ==================
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: myfit-app/e2e/drivers/web/package-lock.json
+
+      - name: Install Playwright dependencies
+        working-directory: myfit-app/e2e/drivers/web
+        run: |
+          npm ci
+          npx playwright install chromium --with-deps
+
+      - name: Run Playwright tests
+        working-directory: myfit-app/e2e/drivers/web
+        run: npm test
+        env:
+          API_URL: http://localhost:8001
+          APP_URL: http://localhost:3000
+          CI: true
+
+      - name: Upload Playwright Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: myfit-app/e2e/drivers/web/playwright-report/
+          retention-days: 30
+
+      - name: Upload Playwright Screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-screenshots
+          path: myfit-app/e2e/drivers/web/test-results/
+          retention-days: 7
+
+      # ==================
+      # Cleanup
+      # ==================
+      - name: Stop servers
+        if: always()
+        run: |
+          # Stop web server
+          if [ -f /tmp/web_server.pid ]; then
+            kill $(cat /tmp/web_server.pid) 2>/dev/null || true
+          fi
+
+          # Stop API server
+          if [ -f /tmp/api_server.pid ]; then
+            kill $(cat /tmp/api_server.pid) 2>/dev/null || true
+          fi
+
+  # Optional: E2E Mobile Tests (Patrol)
+  # Uncomment when Patrol tests are ready
+  #
+  # e2e-mobile:
+  #   name: E2E Mobile Tests (Patrol)
+  #   runs-on: macos-latest
+  #   timeout-minutes: 45
+  #
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+  #       with:
+  #         submodules: recursive
+  #
+  #     # Similar setup as web, but with iOS simulator
+  #     # ...
