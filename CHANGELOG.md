@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0+19] - 2026-02-02
+
+### Fixed
+- **Plan Organization Scoping (API)** - Plans now correctly scoped to organizations
+  - `create_plan` now falls back to X-Organization-ID header (matching `create_workout` behavior)
+  - Inline workouts created during plan creation now receive the organization_id
+  - `duplicate_plan` now propagates organization_id from the active context
+  - `list_plans` and `list_workouts` include backward compatibility for legacy plans with NULL organization_id
+  - Fixes visibility for Personal trainer templates and Solo student workouts
+
 ## [1.0.0+18] - 2026-02-02
 
 ### Added
