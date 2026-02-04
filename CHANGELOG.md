@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0+22] - 2026-02-04
+
+### Added
+- **Check-in System Overhaul** - Complete redesign of check-in flow across app and API
+  - Training sessions with 1-tap check-in, GPS proximity, and trainer-only initiation
+  - Check-in acceptance flow with `pending_acceptance` status
+  - Push notifications for checkout and session events
+  - Re-enabled code-based check-in for QR/manual entry
+- **App Version Display** - Subtle version indicator on all home screens for testing identification
+- **Responsive Scaling (App)** - `flutter_screenutil` for consistent UI across devices
+
+### Fixed
+- Back button restoration, QR code UTC timezone, session refresh, check-in permissions
+- Trainer role validation, proximity radius (200m → 500m), multi-membership check-in
+
+---
+
 ## [1.0.0+21] - 2026-02-02
 
 ### Added

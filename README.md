@@ -1,6 +1,6 @@
 # MyFit Workspace
 
-[![Version](https://img.shields.io/badge/version-1.0.0+21-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.0.0+22-blue.svg)](CHANGELOG.md)
 
 Complete fitness platform for personal trainers, coaches, gyms, and fitness professionals.
 
