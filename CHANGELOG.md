@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0+23] - 2026-02-05
+
+### Added
+- **Training Session Lifecycle** - Complete trainer ↔ student session flow
+  - Trainer initiates → student accepts/rejects → synchronized timers → checkout
+  - Trainer banner on all tabs (except checkin) with session status and timer
+  - Per-student checkout via `POST /checkins/{id}/checkout`
+  - Auto-activate/deactivate trainer session on accept/last-checkout
+- **Version Display on Welcome Screen** - Build reference on welcome page
+- **Self-Account Filter** - Trainer excluded from own student list
+
+### Fixed
+- Negative timer (UTC timezone), accept/reject 500 errors, QR persistence, session sync
+- Banner button loading states, friendly error messages
+
+---
+
 ## [1.0.0+22] - 2026-02-04
 
 ### Added
